@@ -49,7 +49,13 @@ pipeline {
            stage('JaCoCo') {
             steps {
                 echo 'Code Coverage'
-                jacoco()
+                jacoco(execPattern: '**/target/**.exec',
+                    classPattern: '**/target/classes',
+                    sourcePattern: '**/src',
+                    inclusionPattern: 'com/iamvickyav/**',
+                    changeBuildStatus: true,
+                    minimumInstructionCoverage: '30',
+                    maximumInstructionCoverage: '80')
             }
         }
     }
