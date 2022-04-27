@@ -21,14 +21,14 @@ pipeline {
                 sh 'mvn clean install'
             }
         }
-        stage('Building image') {
+        stage('Building docker image') {
             steps{
                script {
                    sh 'docker build -t webapp .'
                 }
             }
         }
-        stage('Run the Docker Image') {
+        stage('Deploy the docker image') {
             steps{
                 script {
                    sh "docker run -d -p 9090:8080 --name webcontainer webapp "
