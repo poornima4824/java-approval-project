@@ -51,5 +51,6 @@ pipeline {
                 echo 'Code Coverage'
                 jacoco()
             }
+        }
     }
 }
