@@ -54,7 +54,7 @@ pipeline {
                     sourcePattern: '**/src',
                     changeBuildStatus: true,
                     minimumInstructionCoverage: '30',
-                    maximumInstructionCoverage: '80')
+                    maximumInstructionCoverage: '50')
             }
         }
     }
