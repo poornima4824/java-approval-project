@@ -40,10 +40,14 @@ pipeline {
                 }
             }
         }
-        emailext mimeType: 'text/html',
-        subject: "[Jenkins]${currentBuild.fullDisplayName}",
-        to: 'naga.poornima22@gmail.com',
-        body: '''<a href="${BUILD_URL}input">click to approve for Production Deployment</a>'''
+        stage('mail') {
+            steps {
+                emailext mimeType: 'text/html',
+                subject: "[Jenkins]${currentBuild.fullDisplayName}",
+                to: 'naga.poornima22@gmail.com',
+                body: '''<a href="${BUILD_URL}input">click to approve for Production Deployment</a>'''
+            }
+        }
         stage('Approval for deploy') {
            steps {
             input "deploy proceed?"
