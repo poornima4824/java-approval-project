@@ -36,6 +36,12 @@ pipeline {
                 body: '''<a href="${BUILD_URL}input">click to approve for Production Deployment</a>'''
             }
         }
+        
+        stage('Approval for deploy') {
+           steps {
+            input "deploy proceed?"
+              }
+        }
         stage('build') {  
           steps {
                 sh 'mvn clean install'
@@ -49,11 +55,6 @@ pipeline {
             }
         }
 
-        stage('Approval for deploy') {
-           steps {
-            input "deploy proceed?"
-              }
-        }
        stage('stop previous containers') {
          steps {
             sh 'docker ps -f name=webcontainer -q | xargs --no-run-if-empty docker container stop'
