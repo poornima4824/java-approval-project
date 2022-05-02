@@ -29,6 +29,10 @@ pipeline {
         // }
         // }
         stage('build') {
+            input {
+                message "Should we continue?"
+                ok "Yes"
+            }
             steps {
                 sh 'mvn clean install'
                 }
