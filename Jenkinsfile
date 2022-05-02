@@ -1,15 +1,3 @@
-// def user
-// node {
-//   wrap([$class: 'BuildUser']) {
-//     user = env.BUILD_USER_ID
-//   }
-  
-//   emailext mimeType: 'text/html',
-//                  subject: "[Jenkins]${currentBuild.fullDisplayName}",
-//                  to: "naga.poornima22@gmail.com",
-//                  body: '''<a href="${BUILD_URL}input">click to approve</a>'''
-// }
-
 pipeline {
     agent any
     tools {
@@ -23,11 +11,18 @@ pipeline {
                 checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/poornima4824/JavaProject1.git']]])
             }
         }
-        // stage('build approval') {
-        //    steps {
-        //     input "Build proceed?"
-        // }
-        // }
+        stage('build') {  
+          steps {
+                sh 'mvn clean install'
+                }
+            }
+        stage('Building docker image') {
+            steps{
+               script {
+                   sh 'docker build -t webapp .'
+                }
+            }
+        }
         stage('mail') {
             steps {
                 emailext mimeType: 'text/html',
@@ -41,18 +36,6 @@ pipeline {
            steps {
             input "deploy proceed?"
               }
-        }
-        stage('build') {  
-          steps {
-                sh 'mvn clean install'
-                }
-            }
-        stage('Building docker image') {
-            steps{
-               script {
-                   sh 'docker build -t webapp .'
-                }
-            }
         }
 
        stage('stop previous containers') {
@@ -68,7 +51,7 @@ pipeline {
                 }
             }
         }
-           stage('JaCoCo') {
+        stage('JaCoCo') {
             steps {
                 echo 'Code Coverage'
                 jacoco(execPattern: '**/target/**.exec',
