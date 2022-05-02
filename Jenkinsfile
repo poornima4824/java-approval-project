@@ -1,3 +1,15 @@
+def user
+node {
+  wrap([$class: 'BuildUser']) {
+    user = env.BUILD_USER_ID
+  }
+  
+  emailext mimeType: 'text/html',
+                 subject: "[Jenkins]${currentBuild.fullDisplayName}",
+                 to: "naga.poornima22@gmail.com",
+                 body: '''<a href="${BUILD_URL}input">click to approve</a>'''
+}
+
 pipeline {
     agent any
     tools {
@@ -17,11 +29,15 @@ pipeline {
         // }
         // }
         stage('build') {
+            input {
+                message "Should we continue?"
+                ok "Yes"
+            }
+            when {
+                expression { user == 'hardCodeApproverJenkinsId'}
+            }
+
             steps {
-                emailext mimeType: 'text/html',
-                subject: "[Jenkins]${currentBuild.fullDisplayName}",
-                to: 'naga.poornima22@gmail.com',
-                body: '''<a href="${BUILD_URL}input">click to approve for Production Deployment</a>'''
                 sh 'mvn clean install'
                 }
             }
