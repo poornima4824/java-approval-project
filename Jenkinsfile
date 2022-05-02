@@ -29,10 +29,6 @@ pipeline {
         // }
         // }
         stage('build') {
-            when {
-                expression { user == 'hardCodeApproverJenkinsId'}
-            }
-
             steps {
                 sh 'mvn clean install'
                 }
