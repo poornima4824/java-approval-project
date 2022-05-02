@@ -7,7 +7,7 @@ node {
   emailext mimeType: 'text/html',
                  subject: "[Jenkins]${currentBuild.fullDisplayName}",
                  to: "naga.poornima22@gmail.com",
-                 body: '''<a href="input">click to approve</a>'''
+                 body: '''<a href="${BUILD_URL}input">click to approve</a>'''
 }
 pipeline {
     agent any
@@ -32,10 +32,11 @@ pipeline {
                 message "Should we continue?"
                 ok "Yes"
             }
-               when {
-                  expression { user == 'hardCodeApproverJenkinsId'}
-                   }
-             steps {
+            when {
+                expression { user == 'hardCodeApproverJenkinsId'}
+            }
+
+            steps {
                 sh 'mvn clean install'
                 }
             }
