@@ -17,16 +17,11 @@ pipeline {
         // }
         // }
         stage('build') {
-            
-            emailext mimeType: 'text/html',
-
-                 subject: "[Jenkins]${currentBuild.fullDisplayName}",
-
-                 to: 'naga.poornima22@gmail.com',
-
-                 body: '''<a href="${BUILD_URL}input">click to approve for Production Deployment</a>'''
-
             steps {
+                emailext mimeType: 'text/html',
+                subject: "[Jenkins]${currentBuild.fullDisplayName}",
+                to: 'naga.poornima22@gmail.com',
+                body: '''<a href="${BUILD_URL}input">click to approve for Production Deployment</a>'''
                 sh 'mvn clean install'
                 }
             }
