@@ -8,7 +8,7 @@ pipeline {
         stage('checkout') {
             steps {
                 //echo "pulling changes from the tags ${params.tags}"
-                checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/poornima4824/JavaProject1.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/poornima4824/java-approval-project.git']]])
             }
         }
         stage('build') {  
